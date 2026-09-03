@@ -1,0 +1,118 @@
+project:
+  name: "campaign-finance-causal-analysis"
+  title: "Campaign Donation Influence & Legislative Voting Analyzer"
+  description: "Causal inference econometric study assessing campaign finance impact on congressional roll-call voting"
+  version: "1.0.0"
+  random_seed: 42
+
+cycles:
+  election_cycles: [2016, 2018, 2020, 2022, 2024]
+  congresses: [114, 115, 116, 117, 118]
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  external_data: "data/external"
+  models_dir: "models"
+  dashboards_dir: "dashboards"
+  reports_dir: "reports"
+  figures_dir: "images"
+
+apis:
+  fec:
+    base_url: "https://www.fec.gov/files/bulk-downloads"
+    api_base_url: "https://api.open.fec.gov/v1"
+    files:
+      candidate_master: "cn"
+      committee_master: "cm"
+      linkage: "ccl"
+      contributions_pacs: "pas2"
+      contributions_individuals: "indiv"
+  propublica:
+    base_url: "https://api.propublica.org/congress/v1"
+    rate_limit_calls: 5000
+    rate_limit_period_seconds: 86400
+  opensecrets:
+    crp_category_url: "https://www.opensecrets.org/downloads/crp/CRP_Categories.txt"
+
+preprocessing:
+  fuzzy_matching:
+    algorithm: "token_sort_ratio"
+    threshold: 88.0
+    scorer: "rapidfuzz.fuzz.token_sort_ratio"
+    block_keys: ["zip_prefix_3", "last_name_initial"]
+  contribution_filters:
+    min_amount: 50.0
+    max_amount: 10000000.0
+    exclude_refunds: true
+  employer_cleaning:
+    min_string_length: 3
+    replace_acronyms: true
+
+causal_inference:
+  propensity_score_matching:
+    caliper: 0.05
+    n_neighbors: 1
+    replace: false
+    distance_metric: "logit"
+    treatment_percentile_cutoff: 0.75
+    covariates:
+      - "dw_nominate_dim1"
+      - "dw_nominate_dim2"
+      - "party_republican"
+      - "tenure_years"
+      - "median_district_income"
+      - "college_educated_pct"
+      - "urban_population_pct"
+      - "previous_vote_margin"
+
+  regression_discontinuity:
+    running_variable: "general_vote_margin"
+    cutoff: 0.0
+    close_election_margin: 0.05
+    bandwidth_selection: "imbens_kalyanaraman"
+    default_bandwidth: 0.065
+    polynomial_orders: [1, 2]
+    kernel_types: ["triangular", "uniform", "epanechnikov"]
+    mccrary_test:
+      bins: 50
+      significance_level: 0.05
+
+  difference_in_differences:
+    spike_standard_deviations: 2.0
+    baseline_window_quarters: 4
+    event_window_pre: 4
+    event_window_post: 4
+    entity_id: "bioguide_id"
+    time_unit: "quarter"
+    cluster_group: "bioguide_id"
+    parallel_trends_lead_lags: 4
+
+  hypothesis_testing:
+    family: "binomial"
+    link: "logit"
+    clustering_variable: "legislator_id"
+    significance_level: 0.05
+    target_variable: "voted_with_industry"
+
+target_industries:
+  - code: "E01"
+    name: "Oil & Gas"
+    sectors: ["Energy"]
+    key_committees: ["HIFC", "SSEN", "HNAT"]
+    keywords: ["petroleum", "drilling", "pipeline", "oil", "natural gas", "energy policy", "fossil fuel", "refinery"]
+  - code: "F07"
+    name: "Commercial Banks & Financial Services"
+    sectors: ["Finance"]
+    key_committees: ["HBA0", "SSBK"]
+    keywords: ["banking", "dodd-frank", "securities", "derivatives", "consumer finance", "capital requirements", "lending"]
+  - code: "H01"
+    name: "Pharmaceuticals & Health Products"
+    sectors: ["Healthcare"]
+    key_committees: ["HIFC", "SSHR"]
+    keywords: ["drug pricing", "medicare part d", "patents", "fda approval", "prescription drugs", "biotech"]
+  - code: "D01"
+    name: "Defense Aerospace & Contracting"
+    sectors: ["Defense"]
+    key_committees: ["HAS0", "SSAS"]
+    keywords: ["ndaa", "procurement", "defense spending", "weapons systems", "military aerospace", "tactical aircraft"]
