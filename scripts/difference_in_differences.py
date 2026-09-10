@@ -119,7 +119,7 @@ class DifferenceInDifferencesEstimator:
         periods = [p for p in range(-n_leads, n_lags + 1) if p != -1]
         dummy_cols = []
         for p in periods:
-            col_name = f"lead_lag_{p if p < 0 else f'plus_{p}'}"
+            col_name = f"lead_lag_minus_{abs(p)}" if p < 0 else f"lead_lag_plus_{p}"
             df_es[col_name] = ((df_es["rel_time"] == p) & (df_es["did_treated_unit"] == 1)).astype(int)
             dummy_cols.append(col_name)
 
