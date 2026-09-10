@@ -1,7 +1,7 @@
 # Campaign Finance Causal Policy & Legislative Voting Analysis
 
 [![Econometrics](https://img.shields.io/badge/Causal_Inference-DiD_&_RDD-0056B3?style=for-the-badge)](https://en.wikipedia.org/wiki/Difference_in_differences) [![Python](https://img.shields.io/badge/Python-Statsmodels-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.statsmodels.org/)
-[![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/satarabdus692-bot)
+[![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdussatarkhan)
 
 > **An econometric causal inference framework evaluating the statistical relationship between corporate PAC contributions and congressional roll-call voting alignments using Difference-in-Differences (DiD) and Regression Discontinuity Design (RDD).**
 
@@ -43,7 +43,7 @@ graph TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/satarabdus692-bot/campaign-finance-causal-analysis.git
+git clone https://github.com/abdussatarkhan/campaign-finance-causal-analysis.git
 cd campaign-finance-causal-analysis
 ```
 
@@ -61,8 +61,8 @@ pip install -r requirements.txt
 
 ## 👨‍💻 Author & Profile
 
-Built and maintained by **Abdussatar** ([@satarabdus692-bot](https://github.com/satarabdus692-bot)).  
-For technical discussions, collaboration, or queries, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/abdus-satar-5150813b5/) or [GitHub](https://github.com/satarabdus692-bot).
+Built and maintained by **Abdussatar** ([@abdussatarkhan](https://github.com/abdussatarkhan)).  
+For technical discussions, collaboration, or queries, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/abdus-satar-5150813b5/) or [GitHub](https://github.com/abdussatarkhan).
 
 ---
 
