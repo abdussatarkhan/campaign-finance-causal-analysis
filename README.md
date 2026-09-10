@@ -1,5 +1,6 @@
 # Campaign Finance Causal Policy & Legislative Voting Analysis
 
+[![CI](https://github.com/abdussatarkhan/campaign-finance-causal-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/abdussatarkhan/campaign-finance-causal-analysis/actions)
 [![Econometrics](https://img.shields.io/badge/Causal_Inference-DiD_&_RDD-0056B3?style=for-the-badge)](https://en.wikipedia.org/wiki/Difference_in_differences) [![Python](https://img.shields.io/badge/Python-Statsmodels-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.statsmodels.org/)
 [![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdussatarkhan)
 
@@ -56,6 +57,16 @@ source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 # Install dependencies (if requirements.txt exists)
 pip install -r requirements.txt
 ```
+
+---
+
+## 🗺️ Roadmap & Upcoming Features
+
+- [x] Difference-in-Differences (DiD) baseline estimation
+- [x] Regression Discontinuity Design (RDD) for close elections
+- [ ] Synthetic Control Group expansion with state legislative donors
+- [ ] Automated campaign finance PDF report generator
+- [ ] Real-time FEC API streaming ingestion
 
 ---
 
